@@ -1,0 +1,17 @@
+package com.example.impacto.entity
+
+import jakarta.persistence.*
+
+@Entity
+@Table(name = "categories")
+class Category(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long = 0,
+
+    @Column(nullable = false, unique = true)
+    var name: String = "",
+
+    @OneToMany(mappedBy = "category", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var products: MutableList<Product> = mutableListOf()
+)

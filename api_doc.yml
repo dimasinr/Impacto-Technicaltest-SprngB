@@ -1,0 +1,238 @@
+openapi: 3.0.1
+info:
+  version:  0.0.1-SNAPSHOT
+  title: Product CRUD
+  description: "
+<ul><b>**CREATE A RESTFUL API** </b> 
+  <li>API<ul>
+    <li>Product :list,  create, read, update, delete</li>
+    <li>Category : list, create</li>
+  </ul></li>
+  <li>Auto generate code in create product if field is empty else if already exists code then increase 1 in the last of code</li>
+  <li>validation (The choice is yours)</li>
+  <li>store to database</li>
+  <li>push code to repository like github, gitlab, bitbucket or etc.</li>
+  </ul>
+<p>
+<ul><b>**PLUS VALUE** </b> 
+<li>  create a docker file to run in docker environment</li>
+<li>  generate api documentation like swagger</li>
+</ul>
+"
+
+servers: 
+  - url: http://localhost:8080
+
+tags: 
+  - name: Product
+  - name: Category
+  
+paths:
+  /product:
+    post:
+      summary: Add new Product
+      tags: 
+        - Product
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/ProductDTO'
+      responses:
+        200:
+          $ref: '#/components/responses/Response_message' 
+    get: 
+      summary: List of Products
+      tags:
+        - Product
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'       
+  /product/{id}:  
+    get:
+      summary: Get Product by id
+      tags:
+        - Product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductResponse' 
+    delete:
+      summary: Delete Product
+      tags: 
+        - Product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          $ref: '#/components/responses/Response_message'
+    put:
+      summary: Update Product
+      tags: 
+        - Product
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/schemas/ProductDTO'
+      responses:
+        200:
+          $ref: '#/components/responses/Response_message' 
+  /category: 
+    get: 
+      summary: List of Products
+      tags:
+        - Category
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryListResponse'  
+    post:
+      summary: Add Category
+      tags: 
+        - Category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/Response_message'
+          
+
+components:
+  responses:
+    Response_message:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+  schemas:
+    ProductDTO:
+      type: object
+      required: 
+        - code
+        - name
+        - price
+      properties:
+        code:
+          type: string
+          description: Code 
+        name:
+          type: string
+          description: Product Name
+        price:
+          type: number
+          description: Product Price
+        categoryId:
+          type: number
+          description: Category ID
+    ProductResponse:
+      type: object
+      required: 
+        - name
+        - price
+        - code
+      properties:
+        id:
+          type: number
+          description: Product ID
+        code:
+          type: string
+          description: Code 
+        name:
+          type: string
+          description: Product Name
+        price:
+          type: number
+          description: Product Price
+        categoryId:
+          type: number
+          description: Category ID
+        categoryDesc:
+          type: string
+          description: Category Name
+    ProductListResponse:
+      type: array
+      items: 
+        $ref: '#/components/schemas/ProductResponse'
+    CategoryListResponse:
+      type: array
+      items: 
+        $ref: '#/components/schemas/CategoryDTO'
+    CategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Category Name
+    CategoryDTO:
+      type: object
+      required: 
+        - name
+        - price
+      properties:
+        id:
+          type: number
+          description: Category ID
+        name:
+          type: string
+          description: Category Name
+        products:
+          type: array
+          items: 
+            $ref: '#/components/schemas/CategoryProductResponse'
+    CategoryProductResponse:
+      type: object
+      required: 
+        - name
+        - price
+      properties:
+        id:
+          type: number
+          description: Product ID
+        code:
+          type: string
+          description: Code 
+        name:
+          type: string
+          description: Product Name
+        price:
+          type: number
+          description: Product Price
+        categoryId:
+          type: number
+          description: Category ID
+
+ 
