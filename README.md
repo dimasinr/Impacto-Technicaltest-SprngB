@@ -31,7 +31,7 @@ Untuk menjalankan secara lokal, Anda juga harus menjalankan database MySQL secar
 
 ---
 
-## Opsi 2: Menjalankan Aplikasi dengan Docker Compose (Direkomendasikan)
+## Opsi 2: Menjalankan Aplikasi dengan Docker Compose
 
 Ini adalah cara paling praktis karena perintah ini akan secara otomatis menyiapkan *container* untuk database MySQL dan aplikasi Spring Boot secara bersamaan tanpa perlu konfigurasi lokal tambahan.
 
